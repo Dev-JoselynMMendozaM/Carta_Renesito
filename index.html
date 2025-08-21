@@ -6,151 +6,187 @@
   <title>Carta para Renesito 💌</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body {
-      background: linear-gradient(135deg, #f9e0e3, #e0f7f6, #f9f0d6);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      overflow: hidden;
-    }
+  body {
+    background: linear-gradient(135deg, #f9e0e3, #e0f7f6, #f9f0d6);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    overflow: hidden;
+    padding: 10px;
+  }
 
-    /* Animación de movimiento del sobre antes de abrir */
+  .sobre {
+    position: relative;
+    border-radius: 15px;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.3);
+    overflow: hidden;
+    cursor: pointer;
+    perspective: 1000px;
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #ffccd9;
+    height: 450px;
+    animation: flotar 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes flotar {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px) rotate(-2deg); }
+    100% { transform: translateY(0px); }
+  }
+
+  .titulo-sobre {
+    position: absolute;
+    top: 250px;
+    left: 35%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff4d94;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 3;
+    text-align: center;
+  }
+
+  .solapa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: #e57373;
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+    transition: transform 1s ease, opacity 0.5s ease;
+    transform-origin: top;
+    z-index: 2;
+  }
+
+  @keyframes latido {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+
+  .contenido {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    margin-top: 10px;
+    height: 100%;
+    padding: 0 10px;
+  }
+
+  .contenido.mostrar-latido {
+    animation: latido 2s ease-in-out infinite;
+  }
+
+  .mensaje {
+    width: 100%;
+    text-align: center;
+    color: black;
+    margin: 0;
+    padding-top: 10px;
+  }
+
+  .mensaje p {
+    font-size: 1.3rem;
+    color: black;
+    margin: 2px 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.6s ease;
+  }
+
+  .mensaje p.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .collage {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: nowrap;
+    overflow-x: hidden; 
+    flex-shrink: 0;
+  }
+
+  .collage img {
+    width: 80px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+  }
+
+  .collage img.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .petalo {
+    position: fixed;
+    width: 15px;
+    height: 15px;
+    background: pink;
+    border-radius: 50%;
+    opacity: 0.8;
+    pointer-events: none;
+    top: -20px;
+    animation: caer linear forwards;
+  }
+
+  @keyframes caer {
+    0% { transform: translateY(-20px) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+  }
+
+  /* -------- RESPONSIVE -------- */
+  @media (max-width: 600px) {
     .sobre {
-      position: relative;
-      border-radius: 15px;
-      box-shadow: 0px 10px 25px rgba(0,0,0,0.3);
-      overflow: hidden;
-      cursor: pointer;
-      perspective: 1000px;
-      width: 90%;
-      max-width: 500px;
-      padding: 20px;
-      background-color: #ffccd9;
-      height: 450px; 
-      animation: flotar 2s ease-in-out infinite alternate;
+      height: 350px;
+      padding: 15px;
     }
-
-    @keyframes flotar {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-15px) rotate(-2deg); }
-      100% { transform: translateY(0px); }
-    }
-
     .titulo-sobre {
-      position: absolute;
-      top: 250px;
-      left: 40%;
-      transform: translateX(-50%);
-      font-size: 2rem;
-      font-weight: bold;
-      color: #ff4d94;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-      z-index: 3;
+      font-size: 1.5rem;
+      top: 220px;
     }
-
-    .solapa {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 50%;
-      background: #e57373;
-      clip-path: polygon(0 0, 50% 100%, 100% 0);
-      transition: transform 1s ease, opacity 0.5s ease;
-      transform-origin: top;
-      z-index: 2;
-    }
-
-    /* Animación de latido para el fondo del contenido */
-    @keyframes latido {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-    }
-
-    .contenido {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      opacity: 0;
-      transition: opacity 0.6s ease;
-      margin-top: 10px;
-      height: 100%;
-      padding: 0 10px;
-    }
-
-    .contenido.mostrar-latido {
-      animation: latido 2s ease-in-out infinite;
-    }
-
-    .mensaje {
-      width: 100%;
-      text-align: center;
-      color: black;
-      margin: 0;
-      padding-top: 10px;
-    }
-
     .mensaje p {
-      font-size: 1.3rem;
-      color: black;
-      margin: 2px 0;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.6s ease;
+      font-size: 1rem;
     }
-
-    .mensaje p.mostrar {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .collage {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
-      flex-wrap: nowrap;
-      overflow-x: hidden; 
-      flex-shrink: 0;
-    }
-
     .collage img {
-      width: 80px;
-      height: auto;
-      border-radius: 10px;
-      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s ease;
+      width: 60px;
     }
+  }
 
-    .collage img.mostrar {
-      opacity: 1;
-      transform: translateY(0);
+  @media (max-width: 400px) {
+    .sobre {
+      height: 300px;
+      padding: 10px;
     }
+    .titulo-sobre {
+      font-size: 1.2rem;
+      top: 200px;
+    }
+    .mensaje p {
+      font-size: 0.9rem;
+    }
+    .collage img {
+      width: 50px;
+    }
+  }
+</style>
 
-    .petalo {
-      position: fixed;
-      width: 15px;
-      height: 15px;
-      background: pink;
-      border-radius: 50%;
-      opacity: 0.8;
-      pointer-events: none;
-      top: -20px;
-      animation: caer linear forwards;
-    }
-
-    @keyframes caer {
-      0% { transform: translateY(-20px) rotate(0deg); }
-      100% { transform: translateY(100vh) rotate(360deg); }
-    }
-  </style>
 </head>
 <body>
   <audio id="musica" src="./img/Lyrics Corazones Malheridos.mp3" loop></audio>
@@ -221,6 +257,7 @@
       }
       mostrarLinea();
     }
+
 
     function mostrarFotos() {
       const imgs = collage.querySelectorAll('img');
