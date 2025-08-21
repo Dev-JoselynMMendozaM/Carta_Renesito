@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta para Renesito 💌</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f9e0e3, #e0f7f6, #f9f0d6);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      overflow: hidden;
+    }
+
+    /* Animación de movimiento del sobre antes de abrir */
+    .sobre {
+      position: relative;
+      border-radius: 15px;
+      box-shadow: 0px 10px 25px rgba(0,0,0,0.3);
+      overflow: hidden;
+      cursor: pointer;
+      perspective: 1000px;
+      width: 90%;
+      max-width: 500px;
+      padding: 20px;
+      background-color: #ffccd9;
+      height: 450px; 
+      animation: flotar 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes flotar {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px) rotate(-2deg); }
+      100% { transform: translateY(0px); }
+    }
+
+    .titulo-sobre {
+      position: absolute;
+      top: 250px;
+      left: 40%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ff4d94;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      z-index: 3;
+    }
+
+    .solapa {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: #e57373;
+      clip-path: polygon(0 0, 50% 100%, 100% 0);
+      transition: transform 1s ease, opacity 0.5s ease;
+      transform-origin: top;
+      z-index: 2;
+    }
+
+    /* Animación de latido para el fondo del contenido */
+    @keyframes latido {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    .contenido {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      margin-top: 10px;
+      height: 100%;
+      padding: 0 10px;
+    }
+
+    .contenido.mostrar-latido {
+      animation: latido 2s ease-in-out infinite;
+    }
+
+    .mensaje {
+      width: 100%;
+      text-align: center;
+      color: black;
+      margin: 0;
+      padding-top: 10px;
+    }
+
+    .mensaje p {
+      font-size: 1.3rem;
+      color: black;
+      margin: 2px 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.6s ease;
+    }
+
+    .mensaje p.mostrar {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .collage {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: nowrap;
+      overflow-x: hidden; 
+      flex-shrink: 0;
+    }
+
+    .collage img {
+      width: 80px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+
+    .collage img.mostrar {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .petalo {
+      position: fixed;
+      width: 15px;
+      height: 15px;
+      background: pink;
+      border-radius: 50%;
+      opacity: 0.8;
+      pointer-events: none;
+      top: -20px;
+      animation: caer linear forwards;
+    }
+
+    @keyframes caer {
+      0% { transform: translateY(-20px) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <audio id="musica" src="./img/Lyrics Corazones Malheridos.mp3" loop></audio>
+
+  <div class="sobre" id="sobre">
+    <div class="titulo-sobre" id="titulo-sobre">Para 💕: <br>Mi Renesito Hermoso 💌</div>
+    <div class="solapa" id="solapa"></div>
+    <div class="contenido" id="contenido">
+      <div class="mensaje" id="mensaje"></div>
+      <div class="collage" id="collage">
+        <img src="./img/1.jpg" alt="Foto 1">
+        <img src="./img/2.jpg" alt="Foto 2">
+        <img src="./img/3.jpg" alt="Foto 3">
+        <img src="./img/4.jpg" alt="Foto 4">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const lineas = [
+      "Hoy, 20/08/2025 💕",
+      "Celebramos 4 meses llenos de amor y risas 💖",
+      "Gracias por cada momento hermoso que compartimos 🌸",
+      "Te amo con todo mi corazón, mi Renesito hermoso 😘"
+    ];
+
+    const sobre = document.getElementById('sobre');
+    const solapa = document.getElementById('solapa');
+    const contenido = document.getElementById('contenido');
+    const mensaje = document.getElementById('mensaje');
+    const collage = document.getElementById('collage');
+    const tituloSobre = document.getElementById('titulo-sobre');
+    const musica = document.getElementById('musica');
+
+    sobre.addEventListener('click', () => {
+      sobre.style.animation = 'none';
+      solapa.style.transform = 'rotateX(180deg)';
+      solapa.style.opacity = '0';
+      tituloSobre.style.opacity = '0';
+
+      contenido.style.opacity = '1';
+      contenido.classList.add('mostrar-latido'); // <-- Activar latido
+      mostrarCarta();
+
+      musica.play().catch(() => {
+        console.log("El navegador bloqueó el autoplay, pero se activará con clic.");
+      });
+
+      setInterval(crearPetalo, 400);
+      sobre.style.pointerEvents = 'none';
+    });
+
+    function mostrarCarta() {
+      mensaje.innerHTML = '';
+      let index = 0;
+      function mostrarLinea() {
+        if (index < lineas.length) {
+          const p = document.createElement('p');
+          p.textContent = lineas[index];
+          mensaje.appendChild(p);
+          setTimeout(() => p.classList.add('mostrar'), 50);
+          index++;
+          setTimeout(mostrarLinea, 1500);
+        } else {
+          collage.style.display = 'flex';
+          mostrarFotos();
+        }
+      }
+      mostrarLinea();
+    }
+
+    function mostrarFotos() {
+      const imgs = collage.querySelectorAll('img');
+      imgs.forEach((img, i) => {
+        setTimeout(() => {
+          img.classList.add('mostrar');
+        }, i * 500);
+      });
+    }
+
+    function crearPetalo() {
+      const petalo = document.createElement('div');
+      petalo.classList.add('petalo');
+      petalo.style.left = Math.random() * window.innerWidth + 'px';
+      petalo.style.background = ["#ffb6c1", "#ffc0cb", "#ff69b4"][Math.floor(Math.random() * 3)];
+      petalo.style.animationDuration = (3 + Math.random() * 3) + 's';
+      document.body.appendChild(petalo);
+      setTimeout(() => { petalo.remove(); }, 6000);
+    }
+  </script>
+</body>
+</html>
